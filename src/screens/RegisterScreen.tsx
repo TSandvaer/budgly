@@ -10,6 +10,7 @@ import {
   Platform,
 } from 'react-native';
 import { useAuth } from '../context/AuthContext';
+import { colors, borderRadius, spacing, fontSize, fontWeight, shadows } from '../constants/theme';
 
 export default function RegisterScreen({ navigation }: any) {
   const [email, setEmail] = useState('');
@@ -105,62 +106,61 @@ export default function RegisterScreen({ navigation }: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: colors.background,
     justifyContent: 'center',
-    padding: 20,
+    padding: spacing.xl,
   },
   form: {
-    backgroundColor: 'white',
-    padding: 20,
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    backgroundColor: colors.card,
+    padding: spacing.xl,
+    borderRadius: borderRadius.lg,
+    ...shadows.lg,
   },
   title: {
-    fontSize: 32,
-    fontWeight: 'bold',
+    fontSize: fontSize.display,
+    fontWeight: fontWeight.bold,
     textAlign: 'center',
-    marginBottom: 8,
-    color: '#2c3e50',
+    marginBottom: spacing.sm,
+    color: colors.text,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: fontSize.base,
     textAlign: 'center',
-    marginBottom: 24,
-    color: '#7f8c8d',
+    marginBottom: spacing.xxl,
+    color: colors.textSecondary,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ddd',
-    padding: 12,
-    marginBottom: 12,
-    borderRadius: 8,
-    fontSize: 16,
+    borderColor: colors.border,
+    padding: spacing.md,
+    marginBottom: spacing.md,
+    borderRadius: borderRadius.md,
+    fontSize: fontSize.base,
+    backgroundColor: colors.backgroundSecondary,
+    color: colors.text,
   },
   button: {
-    backgroundColor: '#27ae60',
+    backgroundColor: colors.primary,
     padding: 15,
-    borderRadius: 8,
-    marginTop: 10,
+    borderRadius: borderRadius.md,
+    marginTop: spacing.md - 2,
+    ...shadows.md,
   },
   buttonDisabled: {
-    backgroundColor: '#95a5a6',
+    backgroundColor: colors.textDisabled,
   },
   buttonText: {
-    color: 'white',
+    color: colors.text,
     textAlign: 'center',
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: fontSize.base,
+    fontWeight: fontWeight.bold,
   },
   linkButton: {
     marginTop: 15,
   },
   linkText: {
-    color: '#3498db',
+    color: colors.primary,
     textAlign: 'center',
-    fontSize: 14,
+    fontSize: fontSize.md,
   },
 });

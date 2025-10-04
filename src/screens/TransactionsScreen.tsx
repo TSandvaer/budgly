@@ -9,11 +9,15 @@ import {
   Alert,
 } from 'react-native';
 import { useAuth } from '../context/AuthContext';
+import { useSettings } from '../context/SettingsContext';
 import { getTransactions, deleteTransaction } from '../services/budgetService';
 import { Transaction } from '../types';
+import { formatCurrency } from '../utils/currency';
+import { colors, borderRadius, spacing, fontSize, fontWeight, shadows } from '../constants/theme';
 
 export default function TransactionsScreen({ navigation }: any) {
   const { user } = useAuth();
+  const { settings } = useSettings();
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -83,7 +87,7 @@ export default function TransactionsScreen({ navigation }: any) {
           item.type === 'income' ? styles.income : styles.expense,
         ]}
       >
-        {item.type === 'income' ? '+' : '-'}${item.amount.toFixed(2)}
+        {item.type === 'income' ? '+' : '-'}{formatCurrency(item.amount, settings.currency)}
       </Text>
     </TouchableOpacity>
   );
@@ -91,7 +95,7 @@ export default function TransactionsScreen({ navigation }: any) {
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#3498db" />
+        <ActivityIndicator size="large" color={colors.primary} />
       </View>
     );
   }
@@ -133,80 +137,77 @@ export default function TransactionsScreen({ navigation }: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: colors.background,
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: colors.background,
   },
   header: {
-    backgroundColor: '#3498db',
-    padding: 20,
+    backgroundColor: colors.backgroundTertiary,
+    padding: spacing.xl,
     paddingTop: 50,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   headerTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'white',
+    fontSize: fontSize.xxl,
+    fontWeight: fontWeight.bold,
+    color: colors.text,
   },
   addButton: {
-    backgroundColor: 'rgba(255,255,255,0.2)',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
+    backgroundColor: colors.primary,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.sm,
+    borderRadius: borderRadius.full,
   },
   addButtonText: {
-    color: 'white',
-    fontWeight: '600',
+    color: colors.text,
+    fontWeight: fontWeight.semibold,
   },
   listContainer: {
-    padding: 16,
+    padding: spacing.lg,
   },
   transactionItem: {
-    backgroundColor: 'white',
-    padding: 16,
-    borderRadius: 10,
-    marginBottom: 12,
+    backgroundColor: colors.card,
+    padding: spacing.lg,
+    borderRadius: borderRadius.md,
+    marginBottom: spacing.md,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
+    ...shadows.sm,
   },
   transactionLeft: {
     flex: 1,
   },
   transactionDescription: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#2c3e50',
-    marginBottom: 4,
+    fontSize: fontSize.base,
+    fontWeight: fontWeight.semibold,
+    color: colors.text,
+    marginBottom: spacing.xs,
   },
   transactionCategory: {
-    fontSize: 14,
-    color: '#7f8c8d',
+    fontSize: fontSize.md,
+    color: colors.textSecondary,
     marginBottom: 2,
   },
   transactionDate: {
-    fontSize: 12,
-    color: '#95a5a6',
+    fontSize: fontSize.sm,
+    color: colors.textTertiary,
   },
   transactionAmount: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: fontSize.lg,
+    fontWeight: fontWeight.bold,
   },
   income: {
-    color: '#27ae60',
+    color: colors.income,
   },
   expense: {
-    color: '#e74c3c',
+    color: colors.expense,
   },
   emptyContainer: {
     flex: 1,
@@ -215,19 +216,20 @@ const styles = StyleSheet.create({
     padding: 40,
   },
   emptyText: {
-    fontSize: 18,
-    color: '#7f8c8d',
-    marginBottom: 20,
+    fontSize: fontSize.lg,
+    color: colors.textSecondary,
+    marginBottom: spacing.xl,
   },
   emptyButton: {
-    backgroundColor: '#3498db',
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 8,
+    backgroundColor: colors.primary,
+    paddingHorizontal: spacing.xxl,
+    paddingVertical: spacing.md,
+    borderRadius: borderRadius.md,
+    ...shadows.md,
   },
   emptyButtonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: '600',
+    color: colors.text,
+    fontSize: fontSize.base,
+    fontWeight: fontWeight.semibold,
   },
 });
